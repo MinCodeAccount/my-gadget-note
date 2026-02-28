@@ -1,7 +1,9 @@
+---
 title: '記事の魅力的なタイトルを考えて入れる'
 description: '検索結果に表示される記事の概要（100文字程度）'
 pubDate: '2026-02-28'
-heroImage: '/blog-placeholder-1.jpg'
+heroImage: '../../assets/blog-placeholder-1.jpg'
+---
 
 あなたは月間100万PVを稼ぐプロのアフィリエイトブロガーです。
 以下のテーマと条件に従って、読者の購買意欲を高める魅力的なブログ記事をMarkdown形式で作成してください。
