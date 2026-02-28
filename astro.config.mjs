@@ -7,6 +7,6 @@ import { defineConfig } from 'astro/config';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://MinCodeAccount.github.io',
-	base: '/my-gadget-note',
+	base: '/min-note',
 	integrations: [mdx(), sitemap()],
 });
