@@ -66,7 +66,7 @@ const posts = (await getCollection('blog')).sort(
 				color: inherit;
 				display: block;
 			}
-			.card:hover {
+			a.card:hover {
 				transform: translateY(-5px) scale(1.02);
 				box-shadow: 0 8px 15px rgba(189, 241, 246, 0.5);
 				border-color: #8be0e8;
@@ -81,9 +81,35 @@ const posts = (await getCollection('blog')).sort(
 			.card.yellow {
 				border-color: #fff3b0;
 			}
-			.card.yellow:hover {
+			a.card.yellow:hover {
 				box-shadow: 0 8px 15px rgba(255, 243, 176, 0.5);
 				border-color: #ffe45e;
+			}
+			
+			.category-list {
+				list-style: none;
+				padding: 0;
+				margin: 1.5rem 0 0 0;
+				display: flex;
+				flex-direction: column;
+				gap: 0.8rem;
+			}
+			.category-list li a {
+				display: block;
+				background: #f4fdff;
+				padding: 0.8rem;
+				border-radius: 10px;
+				text-decoration: none;
+				color: #333;
+				font-weight: bold;
+				transition: all 0.2s;
+				border: 2px solid transparent;
+			}
+			.category-list li a:hover {
+				background: #fff;
+				border-color: #8be0e8;
+				transform: translateX(5px);
+				box-shadow: 0 4px 8px rgba(139, 224, 232, 0.3);
 			}
 			
 			.recent-posts {
@@ -149,10 +175,14 @@ const posts = (await getCollection('blog')).sort(
 			</section>
 
 			<section class="features">
-				<a href={`${import.meta.env.BASE_URL}/blog`} class="card">
-					<h2>📝 ブログを読む</h2>
-					<p>最新の記事や過去のアーカイブはこちら！</p>
-				</a>
+				<div class="card blog-card">
+					<h2>📝 ブログカテゴリ</h2>
+					<ul class="category-list">
+						<li><a href={`${import.meta.env.BASE_URL}/blog`}>📺 アニメ</a></li>
+						<li><a href={`${import.meta.env.BASE_URL}/blog`}>� 投資</a></li>
+						<li><a href={`${import.meta.env.BASE_URL}/blog`}>☕ 日常</a></li>
+					</ul>
+				</div>
 				<a href={`${import.meta.env.BASE_URL}/about`} class="card yellow">
 					<h2>🙋‍♀️ 私について</h2>
 					<p>プロフィールや趣味についてはこちら。</p>
