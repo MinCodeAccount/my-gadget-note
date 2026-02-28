@@ -1,0 +1,11 @@
+---
+title: 'MDXについて'
+description: 'MDXファイルの説明'
+pubDate: '2026-02-28'
+category: 'daily'
+---
+
+このファイルはMDX（Markdown + JSX）という形式のファイルです。
+AstroではMarkdownの中にReactのようなコンポーネントを埋め込むために使われます。
+
+不要であれば削除しても構いませんが、現在は `src/content.config.ts` で `**/*.{md,mdx}` の両方を読み込む設定になっているため、存在するか、正しいFrontmatter（先頭の `---` で囲まれた設定部分）がないとエラーになります。
