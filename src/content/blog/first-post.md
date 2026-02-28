@@ -3,6 +3,7 @@ title: '記事の魅力的なタイトルを考えて入れる'
 description: '検索結果に表示される記事の概要（100文字程度）'
 pubDate: '2026-02-28'
 heroImage: '../../assets/blog-placeholder-1.jpg'
+category: 'daily'
 ---
 
 あなたは月間100万PVを稼ぐプロのアフィリエイトブロガーです。
