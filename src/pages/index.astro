@@ -2,47 +2,180 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+).slice(0, 3);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="ja">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			main {
+				max-width: 800px;
+				margin: 0 auto;
+				padding: 2rem;
+				font-family: 'Hiragino Maru Gothic ProN', 'Rounded M+ 1c', 'Zen Maru Gothic', 'Meiryo', sans-serif;
+			}
+			.hero {
+				background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+				border-radius: 20px;
+				padding: 3rem 2rem;
+				text-align: center;
+				color: #fff;
+				box-shadow: 0 10px 20px rgba(255, 154, 158, 0.3);
+				margin-bottom: 3rem;
+				animation: float 6s ease-in-out infinite;
+			}
+			@keyframes float {
+				0% { transform: translateY(0px); }
+				50% { transform: translateY(-10px); }
+				100% { transform: translateY(0px); }
+			}
+			.hero h1 {
+				margin: 0;
+				font-size: 2.5em;
+				text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+				color: white;
+			}
+			.hero p {
+				font-size: 1.2em;
+				margin-top: 1rem;
+				opacity: 0.9;
+			}
+			
+			.features {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+				gap: 2rem;
+				margin-bottom: 3rem;
+			}
+			.card {
+				background: #fff;
+				border: 4px solid #bdf1f6;
+				border-radius: 15px;
+				padding: 2rem;
+				text-align: center;
+				transition: transform 0.3s, box-shadow 0.3s;
+				text-decoration: none;
+				color: inherit;
+				display: block;
+			}
+			.card:hover {
+				transform: translateY(-5px) scale(1.02);
+				box-shadow: 0 8px 15px rgba(189, 241, 246, 0.5);
+				border-color: #8be0e8;
+			}
+			.card h2 {
+				color: #555;
+				margin-top: 0;
+			}
+			.card p {
+				color: #777;
+			}
+			.card.yellow {
+				border-color: #fff3b0;
+			}
+			.card.yellow:hover {
+				box-shadow: 0 8px 15px rgba(255, 243, 176, 0.5);
+				border-color: #ffe45e;
+			}
+			
+			.recent-posts {
+				background: #fdfbf7;
+				padding: 2rem;
+				border-radius: 15px;
+				border: 2px dashed #ffc6c7;
+			}
+			.recent-posts h2 {
+				color: #ff9a9e;
+				text-align: center;
+				margin-top: 0;
+				font-size: 1.8em;
+			}
+			.post-list {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+			.post-list li {
+				margin-bottom: 1rem;
+				background: #fff;
+				border-radius: 10px;
+				box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+				transition: all 0.2s;
+			}
+			.post-list li:hover {
+				transform: translateX(5px);
+				box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+			}
+			.post-list a {
+				text-decoration: none;
+				color: #333;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				font-weight: bold;
+				padding: 1rem;
+			}
+			.post-date {
+				color: #999;
+				font-size: 0.9em;
+				font-weight: normal;
+			}
+            @media (max-width: 720px) {
+                .post-list a {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 0.5rem;
+                }
+                .hero h1 {
+                    font-size: 2em;
+                }
+            }
+		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+			<section class="hero">
+				<h1>🎉 ようこそ、私のポップな日常へ！ 🎉</h1>
+				<p>日々の出来事や、お気に入りのガジェット、ふと思ったことなどをゆる〜く発信しています。</p>
+			</section>
+
+			<section class="features">
+				<a href={`${import.meta.env.BASE_URL}/blog`} class="card">
+					<h2>📝 ブログを読む</h2>
+					<p>最新の記事や過去のアーカイブはこちら！</p>
+				</a>
+				<a href={`${import.meta.env.BASE_URL}/about`} class="card yellow">
+					<h2>🙋‍♀️ 私について</h2>
+					<p>プロフィールや趣味についてはこちら。</p>
+				</a>
+			</section>
+
+			<section class="recent-posts">
+				<h2>✨ 最近の更新 ✨</h2>
+				<ul class="post-list">
+					{
+						posts.map((post) => (
+							<li>
+								<a href={`${import.meta.env.BASE_URL}/blog/${post.id}/`}>
+									<span>{post.data.title}</span>
+									<span class="post-date">
+										<FormattedDate date={post.data.pubDate} />
+									</span>
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</section>
 		</main>
 		<Footer />
 	</body>
