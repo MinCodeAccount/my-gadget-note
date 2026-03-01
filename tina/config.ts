@@ -97,29 +97,6 @@ export default defineConfig({
             name: "body",
             label: "Body",
             isBody: true,
-            templates: [
-              {
-                name: 'img',
-                label: 'Image',
-                match: {
-                  start: '![',
-                  end: ']'
-                },
-                fields: [
-                  {
-                    name: 'url',
-                    label: 'URL',
-                    type: 'image',
-                    required: true,
-                  },
-                  {
-                    name: 'alt',
-                    label: 'Alt Text',
-                    type: 'string',
-                  },
-                ],
-              },
-            ],
           },
         ],
       },
