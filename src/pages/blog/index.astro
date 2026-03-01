@@ -10,78 +10,138 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+const recentPosts = posts.slice(0, 3);
+const animePosts = posts.filter(post => post.data.category === 'anime').slice(0, 3);
+const investmentPosts = posts.filter(post => post.data.category === 'investment').slice(0, 3);
+const dailyPosts = posts.filter(post => post.data.category === 'daily').slice(0, 3);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="ja">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={`Blog - ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
 		<style>
+			body {
+				background-color: #f9f9f9;
+			}
 			main {
-				width: 960px;
+				max-width: 800px;
+				margin: 0 auto;
+				padding: 2rem;
+				font-family: 'Hiragino Maru Gothic ProN', 'Rounded M+ 1c', 'Zen Maru Gothic', 'Meiryo', sans-serif;
 			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
+			.blog-header {
 				text-align: center;
+				margin-bottom: 3rem;
+				padding: 2rem;
+				background: linear-gradient(135deg, #bdf1f6 0%, #fff 100%);
+				border-radius: 15px;
+				border: 2px dashed #8be0e8;
 			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
+			.blog-header h1 {
 				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
+				color: #555;
 			}
-			.date {
+			.category-section {
+				background: #fff;
+				padding: 2rem;
+				border-radius: 15px;
+				border: 4px solid #fecfef;
+				margin-bottom: 3rem;
+				box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+			}
+			.category-section.anime { border-color: #bdf1f6; }
+			.category-section.investment { border-color: #fff3b0; }
+			.category-section.daily { border-color: #ffc6c7; }
+			
+			.section-title {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				border-bottom: 2px dashed #eee;
+				padding-bottom: 1rem;
+				margin-top: 0;
+				margin-bottom: 1.5rem;
+			}
+			.section-title h2 {
 				margin: 0;
-				color: rgb(var(--gray));
+				font-size: 1.8em;
+				color: #333;
 			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
+			.section-title a {
+				text-decoration: none;
+				color: #ff9a9e;
+				font-weight: bold;
+				transition: color 0.2s;
+				padding: 0.5rem 1rem;
+				background: #fff0f1;
+				border-radius: 20px;
 			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
+			.section-title a:hover {
+				color: #ff7479;
+				background: #ffe3e5;
+			}
+			
+			.post-list {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+			}
+			.post-list li {
+				background: #fdfbf7;
+				border-radius: 10px;
+				transition: all 0.2s;
+				border: 1px solid #eee;
+			}
+			.post-list li:hover {
+				transform: translateX(5px);
+				box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+				border-color: #ffc6c7;
+			}
+			.post-list a {
+				text-decoration: none;
+				color: #333;
+				display: flex;
+				align-items: center;
+				padding: 1rem;
+				gap: 1.5rem;
+			}
+			.post-thumbnail {
+				width: 120px;
+				height: 80px;
+				object-fit: cover;
+				border-radius: 8px;
+			}
+			.post-content {
+				display: flex;
+				flex-direction: column;
+				gap: 0.4rem;
+				flex-grow: 1;
+			}
+			.post-title {
+				font-size: 1.1em;
+				font-weight: bold;
+				color: #333;
+				line-height: 1.3;
+			}
+			.post-date {
+				color: #999;
+				font-size: 0.9em;
 			}
 			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
+				.post-list a {
+					flex-direction: column;
+					align-items: flex-start;
+					gap: 1rem;
 				}
-				ul li {
+				.post-thumbnail {
 					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
+					height: auto;
+					aspect-ratio: 16/9;
 				}
 			}
 		</style>
@@ -89,25 +149,120 @@ const posts = (await getCollection('blog')).sort(
 	<body>
 		<Header />
 		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`${import.meta.env.BASE_URL}blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
+			<section class="blog-header">
+				<h1>📝 ブログ記事一覧</h1>
+				<p>カテゴリーごとに最新の記事をチェックできます！</p>
+			</section>
+
+			<section class="category-section">
+				<div class="section-title">
+					<h2>✨ 最近の記事</h2>
+				</div>
+				<ul class="post-list">
+					{recentPosts.map((post) => (
+						<li>
+							<a href={`${import.meta.env.BASE_URL}/blog/${post.id}/`}>
+								{post.data.heroImage ? (
+									<img class="post-thumbnail" src={post.data.heroImage.src} alt="" />
+								) : (
+									<div class="post-thumbnail" style="background:#eee;"></div>
+								)}
+								<div class="post-content">
+									<span class="post-title">{post.data.title}</span>
+									<span class="post-date">
 										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
+									</span>
+								</div>
+							</a>
+						</li>
+					))}
 				</ul>
 			</section>
+
+			{animePosts.length > 0 && (
+			<section class="category-section anime">
+				<div class="section-title">
+					<h2>📺 アニメ</h2>
+					<a href={`${import.meta.env.BASE_URL}/category/anime`}>もっと見る ❯</a>
+				</div>
+				<ul class="post-list">
+					{animePosts.map((post) => (
+						<li>
+							<a href={`${import.meta.env.BASE_URL}/blog/${post.id}/`}>
+								{post.data.heroImage ? (
+									<img class="post-thumbnail" src={post.data.heroImage.src} alt="" />
+								) : (
+									<div class="post-thumbnail" style="background:#eee;"></div>
+								)}
+								<div class="post-content">
+									<span class="post-title">{post.data.title}</span>
+									<span class="post-date">
+										<FormattedDate date={post.data.pubDate} />
+									</span>
+								</div>
+							</a>
+						</li>
+					))}
+				</ul>
+			</section>
+			)}
+
+			{investmentPosts.length > 0 && (
+			<section class="category-section investment">
+				<div class="section-title">
+					<h2>📈 投資</h2>
+					<a href={`${import.meta.env.BASE_URL}/category/investment`}>もっと見る ❯</a>
+				</div>
+				<ul class="post-list">
+					{investmentPosts.map((post) => (
+						<li>
+							<a href={`${import.meta.env.BASE_URL}/blog/${post.id}/`}>
+								{post.data.heroImage ? (
+									<img class="post-thumbnail" src={post.data.heroImage.src} alt="" />
+								) : (
+									<div class="post-thumbnail" style="background:#eee;"></div>
+								)}
+								<div class="post-content">
+									<span class="post-title">{post.data.title}</span>
+									<span class="post-date">
+										<FormattedDate date={post.data.pubDate} />
+									</span>
+								</div>
+							</a>
+						</li>
+					))}
+				</ul>
+			</section>
+			)}
+
+			{dailyPosts.length > 0 && (
+			<section class="category-section daily">
+				<div class="section-title">
+					<h2>☕ 日常</h2>
+					<a href={`${import.meta.env.BASE_URL}/category/daily`}>もっと見る ❯</a>
+				</div>
+				<ul class="post-list">
+					{dailyPosts.map((post) => (
+						<li>
+							<a href={`${import.meta.env.BASE_URL}/blog/${post.id}/`}>
+								{post.data.heroImage ? (
+									<img class="post-thumbnail" src={post.data.heroImage.src} alt="" />
+								) : (
+									<div class="post-thumbnail" style="background:#eee;"></div>
+								)}
+								<div class="post-content">
+									<span class="post-title">{post.data.title}</span>
+									<span class="post-date">
+										<FormattedDate date={post.data.pubDate} />
+									</span>
+								</div>
+							</a>
+						</li>
+					))}
+				</ul>
+			</section>
+			)}
+
 		</main>
 		<Footer />
 	</body>
