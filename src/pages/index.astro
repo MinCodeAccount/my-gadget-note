@@ -16,6 +16,9 @@ const posts = (await getCollection('blog')).sort(
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
+			body {
+				background-color: #f9f9f9;
+			}
 			main {
 				max-width: 800px;
 				margin: 0 auto;
@@ -40,13 +43,15 @@ const posts = (await getCollection('blog')).sort(
 			.hero h1 {
 				margin: 0;
 				font-size: 2.5em;
-				text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 				color: white;
+				text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 			}
 			.hero p {
 				font-size: 1.2em;
 				margin-top: 1rem;
-				opacity: 0.9;
+				color: white;
+				text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+				opacity: 0.95;
 			}
 			
 			.features {
@@ -144,10 +149,27 @@ const posts = (await getCollection('blog')).sort(
 				text-decoration: none;
 				color: #333;
 				display: flex;
-				justify-content: space-between;
 				align-items: center;
 				font-weight: bold;
 				padding: 1rem;
+				gap: 1.5rem;
+			}
+			.post-thumbnail {
+				width: 100px;
+				height: 70px;
+				object-fit: cover;
+				border-radius: 8px;
+			}
+			.post-content {
+				display: flex;
+				flex-direction: column;
+				gap: 0.3rem;
+				flex-grow: 1;
+			}
+			.post-title {
+				font-size: 1.1em;
+				font-weight: bold;
+				color: #333;
 			}
 			.post-date {
 				color: #999;
@@ -158,8 +180,12 @@ const posts = (await getCollection('blog')).sort(
                 .post-list a {
                     flex-direction: column;
                     align-items: flex-start;
-                    gap: 0.5rem;
+                    gap: 1rem;
                 }
+				.post-thumbnail {
+					width: 100%;
+					height: auto;
+				}
                 .hero h1 {
                     font-size: 2em;
                 }
@@ -196,10 +222,17 @@ const posts = (await getCollection('blog')).sort(
 						posts.map((post) => (
 							<li>
 								<a href={`${import.meta.env.BASE_URL}/blog/${post.id}/`}>
-									<span>{post.data.title}</span>
-									<span class="post-date">
-										<FormattedDate date={post.data.pubDate} />
-									</span>
+									{post.data.heroImage ? (
+										<img class="post-thumbnail" src={post.data.heroImage.src} alt="" />
+									) : (
+										<div class="post-thumbnail" style="background:#eee;"></div>
+									)}
+									<div class="post-content">
+										<span class="post-title">{post.data.title}</span>
+										<span class="post-date">
+											<FormattedDate date={post.data.pubDate} />
+										</span>
+									</div>
 								</a>
 							</li>
 						))
