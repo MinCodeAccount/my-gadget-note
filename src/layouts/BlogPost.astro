@@ -78,6 +78,24 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 						<hr />
 					</div>
 					<slot />
+					
+					<div class="giscus-container" style="margin-top: 4rem; padding-top: 2rem; border-top: 2px dashed #eee;">
+						<script src="https://giscus.app/client.js"
+								data-repo="MinCodeAccount/my-gadget-note"
+								data-repo-id="R_kgDON7EHIw"
+								data-category="Announcements"
+								data-category-id="DIC_kwDON7EHI84CnGDa"
+								data-mapping="pathname"
+								data-strict="0"
+								data-reactions-enabled="1"
+								data-emit-metadata="0"
+								data-input-position="bottom"
+								data-theme="light"
+								data-lang="ja"
+								crossorigin="anonymous"
+								async>
+						</script>
+					</div>
 				</div>
 			</article>
 		</main>
