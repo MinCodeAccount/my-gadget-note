@@ -14,7 +14,7 @@ export default function remarkBaseUrl() {
     // Also handle HTML img tags that might be inside markdown
     visit(tree, 'html', (node) => {
       if (node.value && node.value.includes('<img') && node.value.includes('src="/')) {
-        node.value = node.value.replace(/src="\\//g, 'src="/min-note/');
+        node.value = node.value.replace(/src="\//g, 'src="/min-note/');
       }
     });
   };
