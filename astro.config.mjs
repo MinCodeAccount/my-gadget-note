@@ -3,7 +3,7 @@
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
-// import remarkBaseUrl from './remark-base-url.mjs';
+import remarkBaseUrl from './remark-base-url.mjs';
 
 // https://astro.build/config
 export default defineConfig({
@@ -11,6 +11,6 @@ export default defineConfig({
 	base: '/min-note',
 	integrations: [mdx(), sitemap()],
 	markdown: {
-		// remarkPlugins: [remarkBaseUrl],
+		remarkPlugins: [remarkBaseUrl],
 	},
 });
